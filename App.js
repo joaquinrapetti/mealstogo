@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import { StatusBar, StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { Searchbar } from "react-native-paper";
 
 export default function App() {
+  const [searchQuery, setSearchQuery] = useState(null);
+
+  console.log(searchQuery);
+
   return (
     <>
       {/* ExpoStatusBar only ios adjustment */}
       <ExpoStatusBar />
       <SafeAreaView style={styles.rootContainer}>
         <View style={styles.searchContainer}>
-          <Text>Search</Text>
+          <Searchbar
+            placeholder="Search"
+            onChangeText={setSearchQuery}
+            value={searchQuery}
+          />
         </View>
         <View style={styles.listContainer}>
           <Text>List</Text>
@@ -29,7 +38,6 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     padding: 16,
-    backgroundColor: "green",
   },
   listContainer: {
     flex: 1, // flex: 1 - Extends all as auto is dynamic ; '100%' is overflow
