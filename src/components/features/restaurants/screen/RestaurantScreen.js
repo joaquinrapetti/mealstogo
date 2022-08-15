@@ -1,46 +1,45 @@
 import React, { useState } from "react";
-import { StatusBar, StyleSheet, View, SafeAreaView } from "react-native";
+import { StatusBar, SafeAreaView } from "react-native";
 import { Searchbar } from "react-native-paper";
+import styled from "styled-components";
 
 import RestaurantInfoCard from "../components/RestaurantInfoCard";
+
+const SafeArea = styled(SafeAreaView)`
+  flex: 1;
+  /* marginTop: Platform.OS === "android" ? 50 : null, -- Manual distance from status bar */
+  /* StatusBar.currentHeight -- only android currentHeight from status bar */
+  ${StatusBar.currentHeight && `margin-top: ${StatusBar.currentHeight}px`}
+`;
+
+const SearchContainer = styled.View`
+  padding: ${(props) => props.theme.space[3]};
+`;
+
+const RestaurantListContainer = styled.View`
+  /* flex: 1 - Extends all as auto is dynamic ; '100%' is overflow */
+  flex: 1;
+  padding: ${(props) => props.theme.space[3]};
+  background-color: blue;
+`;
 
 const RestaurantScreen = () => {
   const [searchQuery, setSearchQuery] = useState(null);
 
-  console.log(searchQuery);
-
   return (
-    <SafeAreaView style={styles.rootContainer}>
-      <View style={styles.searchContainer}>
+    <SafeArea>
+      <SearchContainer>
         <Searchbar
           placeholder="Search"
           onChangeText={setSearchQuery}
           value={searchQuery}
         />
-      </View>
-      <View style={styles.listContainer}>
+      </SearchContainer>
+      <RestaurantListContainer>
         <RestaurantInfoCard />
-      </View>
-    </SafeAreaView>
+      </RestaurantListContainer>
+    </SafeArea>
   );
 };
-
-const styles = StyleSheet.create({
-  rootContainer: {
-    flex: 1,
-    // marginTop: Platform.OS === "android" ? 50 : null, -- Manual distance from status bar
-    // StatusBar.currentHeight -- only android currentHeight from status bar
-    marginTop: StatusBar.currentHeight,
-  },
-  searchContainer: {
-    padding: 16,
-  },
-  listContainer: {
-    flex: 1, // flex: 1 - Extends all as auto is dynamic ; '100%' is overflow
-    padding: 16,
-    backgroundColor: "red",
-    height: "auto",
-  },
-});
 
 export default RestaurantScreen;
